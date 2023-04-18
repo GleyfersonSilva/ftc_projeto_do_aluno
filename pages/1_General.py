@@ -13,7 +13,7 @@ from streamlit_folium import folium_static
 
 #configuração da página
 st.set_page_config(
-    page_title="Main Page",
+    page_title="Dados gerais",
     layout = "wide"
 )
 

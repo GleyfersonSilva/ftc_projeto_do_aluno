@@ -6,7 +6,7 @@ import streamlit.components.v1 as components
 
 #Configurando a página
 st.set_page_config(
-    page_title="Visão empresa",
+    page_title="Home",
     layout = "wide"
 )
 

@@ -100,14 +100,14 @@ def clean_code(df):
 
 def avaliation_restaurant(df1, rank_asc, indice):
     '''
-        Esta função tem o objetivo de trazer as informações do melhor ou pior restaurante do top 5 melhores ou piores restaurantes
-        df: dataframe a ser analisado
-        rank_asc: a ordenação da análise
-            - False: irá analisar os melhores restaurantes
-            - True: irá analisar os piores restaurantes
-        indice: indica qual dos top 5 restaurantes você deseja exibir
-            - exemplo: o top restaurantes vai de 1 a 5, porém, como temos o indice iniciando em 0, precisamos 
-            utilizar os valores de 0 a 4 para indicar esses restaurantes, sendo 0 o primeiro restaurante e 4 o último restaurante.
+    Esta função tem o objetivo de trazer as informações do melhor ou pior restaurante do top 5 melhores ou piores restaurantes
+    df: dataframe a ser analisado
+    rank_asc: a ordenação da análise
+        - False: irá analisar os melhores restaurantes
+        - True: irá analisar os piores restaurantes
+    indice: indica qual dos top 5 restaurantes você deseja exibir
+        - exemplo: o top restaurantes vai de 1 a 5, porém, como temos o indice iniciando em 0, precisamos 
+        utilizar os valores de 0 a 4 para indicar esses restaurantes, sendo 0 o primeiro restaurante e 4 o último restaurante.
     '''
     # Obter os 5 tipos de culinária com a maior média de avaliação
     # Filtros e colunas
@@ -126,7 +126,7 @@ def avaliation_restaurant(df1, rank_asc, indice):
     filtros = (df_aux['Cuisines'] == culinarias[indice])
     colunas = ['Country Code', 'City', 'Average Cost for two', 'Currency', 'Restaurant Name', 'Aggregate rating', 'Cuisines']
     df_aux = df_aux.loc[filtros, colunas]
-    df_aux = df_aux.sort_values('Aggregate rating', ascending = False).reset_index(drop=True)
+    df_aux = df_aux.sort_values('Aggregate rating', ascending = rank_asc).reset_index(drop=True)
     df_aux = df_aux.loc[:0, :]
     df_aux['País'] = df_aux['Country Code'].apply(country_name)
     df_aux = df_aux.rename( columns = {'Average Cost for two' : 'Média de um prato para dois', 'Currency' : 'Moeda', 'Restaurant Name' : 'Restaurante', 'City' : 'Cidade', 'Cuisines' : 'Culinária', 'Aggregate rating' : 'Avaliação'})
@@ -162,7 +162,7 @@ def avaliation_cuisines(df1, rank_asc, indice):
             - exemplo: a partir de um filtro de valores é definido um número, de 1 a 20, onde deve ser escolhido a quantidade de restaurantes que deve conter este rank
     '''
     colunas = ['Aggregate rating', 'Cuisines']
-    filtros = (df1['Votes'] > 0) & (df1['Cuisines'] != 'Others') & (df1['Cuisines'] != 'nan')
+    filtros = (df1['Votes'] > 0) & (df1['Cuisines'] != 'Others')
     df_aux = df1.loc[filtros, colunas].groupby(['Cuisines']).mean().reset_index()
     df_aux = df_aux.sort_values('Aggregate rating', ascending = rank_asc).reset_index(drop=True)
     df_aux = df_aux.rename(columns = {'Cuisines' : 'Culinária', 'Aggregate rating' : 'Média das avaliações'})
@@ -264,7 +264,7 @@ with st.container():
         ajuda = 'País: ' + df_auxiliar.iloc[0,6] +'\n\n Cidade: ' +df_auxiliar.iloc[0,0] + '\n\n Média de Prato Para Dois: '  + df_auxiliar.iloc[0,1].astype(str) + df_auxiliar.iloc[0,2]
         st.metric(label=titulo, value = valor, help=ajuda)
 
-st.markdown('### Piores restaurantes dos Principais Tipos Culinários')
+st.markdown('### Piores restaurantes dos Tipos Culinários com menor média de avaliação')
 
 with st.container():
     col1, col2, col3, col4, col5 = st.columns(5)

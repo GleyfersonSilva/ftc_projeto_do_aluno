@@ -170,7 +170,7 @@ with st.container():
         df_aux = df_aux.drop(['Country Code'], axis=1)
         df_aux = df_aux.sort_values('Votes', ascending = False)
         df_aux = df_aux.rename(columns={'Votes' : 'Quantidade de avaliações'})
-        greaphic = px.bar(df_aux, x='País', y='Quantidade de avaliações', text_auto='.2f')
+        graphic = px.bar(df_aux, x='País', y='Quantidade de avaliações', text_auto='.2f')
         st.plotly_chart(graphic, use_container_width = True)
         
     with col2:

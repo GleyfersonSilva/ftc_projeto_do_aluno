@@ -13,7 +13,7 @@ from streamlit_folium import folium_static
 
 #configuração da página
 st.set_page_config(
-    page_title="Dados gerais",
+    page_title="Main Page",
     layout = "wide"
 )
 
@@ -175,7 +175,7 @@ with st.container():
         value = unique_values(df1, coluna='Cuisines')
         st.metric('Culinárias cadastradas', value)
     with col5:
-        value = df1['Aggregate rating'].sum()
+        value = df1['Votes'].sum()
         st.metric('Quantidade de avaliações', value)
 with st.container():
     st.markdown('''---''')

@@ -138,16 +138,16 @@ st.markdown('# Visão Cidades')
 st.markdown('''---''')
 
 with st.container():
+    
     st.markdown('### Top 10 Cidades com mais Restaurantes Cadastrados')
     #definindo colunas
-    colunas = ['Restaurant ID', 'City', 'Country Code', 'Rating color']
+    colunas = ['Restaurant ID', 'Country Code', 'City']
     #agrupando
-    df_aux = df1.loc[:, colunas].groupby(['Country Code', 'City', 'Rating color']).nunique().reset_index()
+    df_aux = df1.loc[:, colunas].groupby(['Country Code', 'City']).nunique().reset_index()
     #aplicando funções
     df_aux['País'] = df_aux['Country Code'].apply(country_name)
-    df_aux['Cor'] = df_aux['Rating color'].apply(color_name)
     #excluindo colunas
-    df_aux = df_aux.drop(['Country Code', 'Rating color'], axis = 1)
+    df_aux = df_aux.drop(['Country Code'], axis = 1)
     #ordenando
     df_aux = df_aux.sort_values('Restaurant ID', ascending = False).reset_index(drop=True)
     #filtrando um top
@@ -164,13 +164,12 @@ with st.container():
     with col1:
         st.markdown('### Top 10 Cidades com Restaurantes com Média de Avaliação Acima de 4.0')
         #colunas e filtros
-        colunas = ['Restaurant ID', 'City', 'Country Code', 'Rating color']
+        colunas = ['Restaurant ID', 'City', 'Country Code']
         filtro = (df1['Aggregate rating'] > 4) & (df1['Votes'] > 0)
         #agrupando
-        df_aux = df1.loc[filtro, colunas].groupby(['Country Code', 'City', 'Rating color']).nunique().reset_index()
+        df_aux = df1.loc[filtro, colunas].groupby(['Country Code', 'City']).nunique().reset_index()
         #aplicando filtros
         df_aux['País'] = df_aux['Country Code'].apply(country_name)
-        df_aux['Cor'] = df_aux['Rating color'].apply(color_name)
         #ordenando
         df_aux = df_aux.sort_values('Restaurant ID', ascending = False).reset_index(drop=True)
         #filtrando um top
@@ -183,19 +182,18 @@ with st.container():
     with col2:
         st.markdown('### Top 7 Cidades com Restaurantes com Média de Avaliação Abaixo de 2.0')
         #colunas e filtros
-        colunas = ['Restaurant ID', 'City', 'Country Code', 'Rating color', 'Aggregate rating']
+        colunas = ['Restaurant ID', 'City', 'Country Code', 'Aggregate rating']
         filtro = (df1['Aggregate rating'] < 2.5) & (df1['Votes'] > 0)
         #agrupando
-        df_aux = df1.loc[filtro, colunas].groupby(['Country Code', 'City', 'Rating color']).nunique().reset_index()
+        df_aux = df1.loc[filtro, colunas].groupby(['Country Code', 'City']).nunique().reset_index()
         #aplicando funções
         df_aux['País'] = df_aux['Country Code'].apply(country_name)
-        df_aux['Cor'] = df_aux['Rating color'].apply(color_name)
         #ordenando
         df_aux = df_aux.sort_values('Restaurant ID', ascending = False).reset_index(drop=True)
         #criando um top
         df_aux = df_aux.loc[df_aux.index < 7, :].reset_index(drop=True)
         #excluíndo colunas desnecessárias
-        df_aux = df_aux.drop(['Country Code', 'Rating color'], axis = 1)
+        df_aux = df_aux.drop(['Country Code'], axis = 1)
         #renomeando
         df_aux = df_aux.rename( columns = { 'City' : 'Cidade', 'Restaurant ID' : 'Quantidade de retaurantes'})
         #plotando
@@ -205,18 +203,17 @@ with st.container():
 with st.container():
     st.markdown('### Top 7 Cidades mais Restaurantes com Tipos Culinários Distintos')
     #Definindo colunas
-    colunas = ['Cuisines', 'City', 'Country Code', 'Rating color']
+    colunas = ['Cuisines', 'City', 'Country Code']
     #agrupando a quantidade distinta de culinárias por cidade
-    df_aux = df1.loc[:, colunas].groupby(['Country Code','City',  'Rating color']).nunique().reset_index()
+    df_aux = df1.loc[:, colunas].groupby(['Country Code','City']).nunique().reset_index()
     #aplicando funções: nomeando países e nomeando cores
     df_aux['País'] = df_aux['Country Code'].apply(country_name)
-    df_aux['Cor'] = df_aux['Rating color'].apply(color_name)
     #ordenando o dataframe em ordem decrescente
     df_aux = df_aux.sort_values('Cuisines', ascending = False).reset_index(drop=True)
     #filtrando as 10 primeiras linhas do dataframe
     df_aux = df_aux.loc[0:9, :]
     #excluído colunas desnecessárias
-    df_aux = df_aux.drop(['Rating color', 'Country Code'], axis = 1)
+    df_aux = df_aux.drop(['Country Code'], axis = 1)
     #renomeando colunas
     df_aux = df_aux.rename(columns = {'City' : 'Cidade', 'Cuisines' : 'Quantidade de culinárias'})
     #criando e exibindo o gráfico

@@ -162,7 +162,7 @@ with st.container():
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown('### Top 10 Cidades com Restaurantes com Média de Avaliação Acima de 4.0')
+        st.markdown('### Top 7 Cidades com Restaurantes com Média de Avaliação Acima de 4.0')
         #colunas e filtros
         colunas = ['Restaurant ID', 'City', 'Country Code']
         filtro = (df1['Aggregate rating'] > 4) & (df1['Votes'] > 0)

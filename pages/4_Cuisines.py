@@ -182,7 +182,6 @@ df1 = clean_code(df)
 df1['Country'] = df1['Country Code'].apply(country_name)
 countries = df1['Country'].unique()
 cuisines = df1['Cuisines'].unique()
-
 #==============================================CRIANDO A SIDEBAR=============================================
 
 image = Image.open('logo.png')
@@ -207,11 +206,9 @@ slider = st.sidebar.slider(
 
 
 #Filtro Cidades
-culinaria = st.sidebar.multiselect('Escolha os tipos de culinária que deseja visualizar', cuisines, default = cuisines[:5])
+culinaria = st.sidebar.multiselect('Escolha os tipos de culinária que deseja visualizar', cuisines, default = cuisines)
 linhas_selecionadas = df1['Cuisines'].isin(culinaria)
-df1 = df1.loc[linhas_selecionadas, :].reset_index()
-
-             
+df1 = df1.loc[linhas_selecionadas, :].reset_index(drop=True)
 
 st.sidebar.markdown("""---""")
 
@@ -303,7 +300,7 @@ with st.container():
         valor = df_auxiliar.iloc[0,4].astype(str)  + "/5.0"
         ajuda = 'País: ' + df_auxiliar.iloc[0,6] +'\n\n Cidade: ' +df_auxiliar.iloc[0,0] + '\n\n Média de Prato Para Dois: '  + df_auxiliar.iloc[0,1].astype(str) + df_auxiliar.iloc[0,2]
         st.metric(label=titulo, value = valor, help=ajuda)
-
+ 
 st.markdown('''---''')
 
 with st.container():
@@ -326,11 +323,11 @@ with st.container():
     
     with col1:
         st.markdown('### Top ' + str(slider) + ' Melhores Tipos de Culinária')
-        graphic = avaliation_cuisines(df1, rank_asc=False, indice=slider)
+        graphic = avaliation_cuisines(df1, rank_asc=False, indice=slider-1)
         st.plotly_chart(graphic, use_container_width=True)
         
     with col2:
         st.markdown('### Top ' + str(slider) + ' Piores Tipos de Culinária')
-        graphic = avaliation_cuisines(df1, rank_asc=True, indice=slider)
+        graphic = avaliation_cuisines(df1, rank_asc=True, indice=slider-1)
         st.plotly_chart(graphic, use_container_width=True)
-    
+        
